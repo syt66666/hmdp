@@ -15,14 +15,21 @@ public class MvcConfig implements WebMvcConfigurer {
     private StringRedisTemplate stringRedisTemplate;
     public void addInterceptors(InterceptorRegistry registry) {
 
-        registry.addInterceptor(new RefreshTokenInterceptor(stringRedisTemplate)).addPathPatterns("/**").order(0);
+        registry.addInterceptor(new RefreshTokenInterceptor(stringRedisTemplate)).addPathPatterns("/**").excludePathPatterns(
+                "/user/code",
+                "/user/login",
+                "/blog/hot",
+                "/shop/**",
+                "/shop-type/**",
+                "/voucher/**").order(0);
         registry.addInterceptor(new LoginInterceptor())
                 .excludePathPatterns(
                         "/user/code",
                         "/user/login",
                         "/blog/hot",
                         "/shop/**",
-                        "/shop-type/**").order(1);
+                        "/shop-type/**",
+                        "/voucher/**").order(1);
 
     }
 
